@@ -26,6 +26,6 @@ public abstract class ValueDeclaration : Declaration, IGraphNode
             return (type.GetMethod(nameof(ParseFromJ))?.Invoke(null, [j, astNodeDict]) as ValueDeclaration)
                 .Expect("Failed to parse ValueDeclaration from JObject.", j);
         }
-        throw new NotSupportedException($"Unsupported ValueDeclaration kind: {kind}");
+        throw new NotSupportedException($"Unsupported ValueDeclaration kind: {kind}.\nJSON content: {j}");
     }
 }

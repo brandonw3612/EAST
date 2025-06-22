@@ -29,7 +29,7 @@ public abstract class Statement : IGraphNode
             return (type.GetMethod(nameof(ParseFromJ))?.Invoke(null, [j, astNodeDict]) as Statement)
                 .Expect("Internal error: Cannot parse statement from JSON.", j);
         }
-        throw new NotSupportedException("Unsupported statement type: " + kind);
+        throw new NotSupportedException($"Unsupported statement type: {kind}.\nJSON content: {j}");
     }
 
     public abstract GraphNode AddToGraph(AdjacencyGraph<GraphNode, GraphEdge> graph,

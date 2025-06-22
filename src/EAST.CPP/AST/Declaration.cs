@@ -29,7 +29,7 @@ public abstract class Declaration
             return (type.GetMethod(nameof(ParseFromJ))?.Invoke(null, [j, astNodeDict]) as Declaration)
                 .Expect("Failed to parse Declaration from JObject.", j);
         }
-        throw new NotSupportedException($"Unsupported Declaration kind: {kind}");
+        throw new NotSupportedException($"Unsupported Declaration kind: {kind}.\nJSON content: {j}");
     }
     
     public abstract GraphNode AddToGraph(AdjacencyGraph<GraphNode, GraphEdge> graph,

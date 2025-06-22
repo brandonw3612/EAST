@@ -30,6 +30,6 @@ public abstract class Expression : Statement
             return (type.GetMethod("ParseFromJ")?.Invoke(null, [j, astNodeDict]) as Expression)
                 .Expect("Internal error: Cannot parse expression from JSON.", j);
         }
-        throw new NotSupportedException("Unsupported expression type: " + kind);
+        throw new NotSupportedException($"Unsupported expression type: {kind}.\nJSON content: {j}");
     }
 }
