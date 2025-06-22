@@ -9,7 +9,7 @@ namespace EAST.CPP.AST;
 [Expression("ParenExpr")]
 public class ParenthesizedExpression : Expression
 {
-    public required Expression InnerExpression { get; set; }
+    public required Expression Inner { get; set; }
     
     public new static ParenthesizedExpression ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
     {
@@ -26,7 +26,7 @@ public class ParenthesizedExpression : Expression
             Id = id,
             Type = j.GetTypeName(),
             ValueCategory = j.GetExpressionValueCategory(),
-            InnerExpression = Expression.ParseFromJ(
+            Inner = Expression.ParseFromJ(
                 children.FirstOrDefault()
                     .Expect("Cannot find inner expression in parenthesized expression.", j),
                 astNodeDict
@@ -52,7 +52,7 @@ public class ParenthesizedExpression : Expression
         };
         graph.AddVertex(node);
         
-        var innerNode = InnerExpression.AddToGraph(graph, astNodeDict);
+        var innerNode = Inner.AddToGraph(graph, astNodeDict);
         graph.AddEdge(new(node, innerNode));
         
         astNodeDict[Id] = innerNode;

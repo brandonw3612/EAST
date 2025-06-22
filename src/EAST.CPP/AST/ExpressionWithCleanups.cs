@@ -9,7 +9,7 @@ namespace EAST.CPP.AST;
 [Expression("ExprWithCleanups")]
 public class ExpressionWithCleanups : Expression
 {
-    public required Expression InnerExpression { get; set; }
+    public required Expression Inner { get; set; }
     
     public new static ExpressionWithCleanups ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
     {
@@ -25,7 +25,7 @@ public class ExpressionWithCleanups : Expression
             Id = id,
             Type = j.GetTypeName(),
             ValueCategory = j.GetExpressionValueCategory(),
-            InnerExpression = Expression.ParseFromJ(
+            Inner = Expression.ParseFromJ(
                 j.GetChildren()
                     .FirstOrDefault()
                     .Expect("Cannot find inner expression in ExprWithCleanups.", j),
@@ -52,7 +52,7 @@ public class ExpressionWithCleanups : Expression
         };
         graph.AddVertex(node);
         
-        var innerNode = InnerExpression.AddToGraph(graph, astNodeDict);
+        var innerNode = Inner.AddToGraph(graph, astNodeDict);
         graph.AddEdge(new(node, innerNode));
         
         astNodeDict[Id] = node;

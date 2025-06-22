@@ -10,7 +10,7 @@ namespace EAST.CPP.AST;
 public class BindTemporaryExpression : Expression
 {
     public required DestructorDeclaration Destructor { get; set; }
-    public required Expression SubExpression { get; set; }
+    public required Expression Sub { get; set; }
     
     public new static BindTemporaryExpression ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
     {
@@ -30,7 +30,7 @@ public class BindTemporaryExpression : Expression
                     .Expect("Cannot find destructor declaration in the bind temporary expression.", j),
                 astNodeDict
             ),
-            SubExpression = Expression.ParseFromJ(
+            Sub = Expression.ParseFromJ(
                 children.FirstOrDefault()
                     .Expect("Cannot find sub-expression in BindTemporaryExpression.", j),
                 astNodeDict
@@ -57,7 +57,7 @@ public class BindTemporaryExpression : Expression
         };
         graph.AddVertex(node);
 
-        var subExpressionNode = SubExpression.AddToGraph(graph, astNodeDict);
+        var subExpressionNode = Sub.AddToGraph(graph, astNodeDict);
         graph.AddEdge(new GraphEdge(subExpressionNode, node)
         {
             Label = "Sub"

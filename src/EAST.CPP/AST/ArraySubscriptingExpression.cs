@@ -9,8 +9,8 @@ namespace EAST.CPP.AST;
 [Expression("ArraySubscriptExpr")]
 public class ArraySubscriptingExpression : Expression
 {
-    public required Expression LeftExpression { get; set; }
-    public required Expression RightExpression { get; set; }
+    public required Expression Left { get; set; }
+    public required Expression Right { get; set; }
     
     public new static ArraySubscriptingExpression ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
     {
@@ -27,12 +27,12 @@ public class ArraySubscriptingExpression : Expression
             Id = id,
             Type = j.GetTypeName(),
             ValueCategory = j.GetExpressionValueCategory(),
-            LeftExpression = Expression.ParseFromJ(
+            Left = Expression.ParseFromJ(
                 children.FirstOrDefault()
                     .Expect("Cannot find left expression in the array subscripting expression.", j),
                 astNodeDict
             ),
-            RightExpression = Expression.ParseFromJ(
+            Right = Expression.ParseFromJ(
                 children.ElementAtOrDefault(1)
                     .Expect("Cannot find right expression in the array subscripting expression.", j),
                 astNodeDict
@@ -57,10 +57,10 @@ public class ArraySubscriptingExpression : Expression
         };
         graph.AddVertex(node);
 
-        var leftNode = LeftExpression.AddToGraph(graph, astNodeDict);
+        var leftNode = Left.AddToGraph(graph, astNodeDict);
         graph.AddEdge(new(node, leftNode));
 
-        var rightNode = RightExpression.AddToGraph(graph, astNodeDict);
+        var rightNode = Right.AddToGraph(graph, astNodeDict);
         graph.AddEdge(new(node, rightNode));
 
         astNodeDict[Id] = node;

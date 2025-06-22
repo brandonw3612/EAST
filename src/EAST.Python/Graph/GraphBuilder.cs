@@ -112,8 +112,6 @@ public class GraphBuilder
                         graph.AddVertex(vn);
                         graph.AddEdge(new Edge<Node>(node, vn));
                         break;
-                    default:
-                        break;
                 }
             }
             return node;

@@ -9,7 +9,7 @@ namespace EAST.CPP.AST;
 [Statement("ReturnStmt")]
 public class ReturnStatement : Statement
 {
-    public required Expression Expression { get; set; }
+    public required Expression Value { get; set; }
 
     public new static ReturnStatement ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
     {
@@ -23,7 +23,7 @@ public class ReturnStatement : Statement
         ReturnStatement node = new()
         {
             Id = id,
-            Expression = Expression.ParseFromJ(
+            Value = Expression.ParseFromJ(
                 j.GetChildren()
                     .FirstOrDefault()
                     .Expect("Cannot find the value of the return statement", j),
@@ -50,7 +50,7 @@ public class ReturnStatement : Statement
         };
         graph.AddVertex(node);
 
-        var exprNode = Expression.AddToGraph(graph, astNodeDict);
+        var exprNode = Value.AddToGraph(graph, astNodeDict);
         graph.AddEdge(new(node, exprNode));
 
         astNodeDict[Id] = node;

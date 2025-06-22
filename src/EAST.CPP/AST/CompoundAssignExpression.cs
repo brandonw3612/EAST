@@ -10,8 +10,8 @@ namespace EAST.CPP.AST;
 [Expression("CompoundAssignOperator")]
 public class CompoundAssignExpression : Expression
 {
-    public required Expression LeftExpression { get; set; }
-    public required Expression RightExpression { get; set; }
+    public required Expression Left { get; set; }
+    public required Expression Right { get; set; }
     public required BinaryOperation Operation { get; set; }
     
     public new static CompoundAssignExpression ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
@@ -27,12 +27,12 @@ public class CompoundAssignExpression : Expression
         CompoundAssignExpression node = new()
         {
             Id = id,
-            LeftExpression = Expression.ParseFromJ(
+            Left = Expression.ParseFromJ(
                 children.FirstOrDefault()
                     .Expect("Cannot find left expression in CompoundAssignExpression.", j),
                 astNodeDict
             ),
-            RightExpression = Expression.ParseFromJ(
+            Right = Expression.ParseFromJ(
                 children.ElementAtOrDefault(1)
                     .Expect("Cannot find right expression in CompoundAssignExpression.", j),
                 astNodeDict
@@ -63,8 +63,8 @@ public class CompoundAssignExpression : Expression
         };
         graph.AddVertex(node);
 
-        var leftNode = LeftExpression.AddToGraph(graph, astNodeDict);
-        var rightNode = RightExpression.AddToGraph(graph, astNodeDict);
+        var leftNode = Left.AddToGraph(graph, astNodeDict);
+        var rightNode = Right.AddToGraph(graph, astNodeDict);
         
         graph.AddEdge(new GraphEdge(leftNode, node));
         graph.AddEdge(new GraphEdge(rightNode, node));

@@ -10,8 +10,8 @@ namespace EAST.CPP.AST;
 public class ConditionalExpression : Expression
 {
     public required Expression Condition { get; set; }
-    public required Expression TrueExpression { get; set; }
-    public required Expression FalseExpression { get; set; }
+    public required Expression True { get; set; }
+    public required Expression False { get; set; }
     
     public new static ConditionalExpression ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
     {
@@ -33,12 +33,12 @@ public class ConditionalExpression : Expression
                     .Expect("Cannot find condition in conditional expression.", j),
                 astNodeDict
             ),
-            TrueExpression = Expression.ParseFromJ(
+            True = Expression.ParseFromJ(
                 children.ElementAtOrDefault(1)
                     .Expect("Cannot find true expression in conditional expression.", j),
                 astNodeDict
             ),
-            FalseExpression = Expression.ParseFromJ(
+            False = Expression.ParseFromJ(
                 children.ElementAtOrDefault(2)
                     .Expect("Cannot find false expression in conditional expression.", j),
                 astNodeDict
@@ -65,8 +65,8 @@ public class ConditionalExpression : Expression
         graph.AddVertex(node);
         
         var conditionNode = Condition.AddToGraph(graph, astNodeDict);
-        var trueNode = TrueExpression.AddToGraph(graph, astNodeDict);
-        var falseNode = FalseExpression.AddToGraph(graph, astNodeDict);
+        var trueNode = True.AddToGraph(graph, astNodeDict);
+        var falseNode = False.AddToGraph(graph, astNodeDict);
 
         graph.AddEdge(new(node, conditionNode)
         {

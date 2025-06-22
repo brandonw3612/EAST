@@ -42,12 +42,13 @@ public class FunctionDeclaration : ValueDeclaration
             astNodeDict[id] = node;
             return node;
         }
-        catch (NotSupportedException)
+        catch (Exception e)
         {
-            throw;
-        }
-        catch
-        {
+            if (e.VisitException<NotSupportedException>() is { } nse)
+            {
+                throw nse;
+            }
+            
             return ExternalFunctionDeclaration.Create(
                 j.Value<string>("name")
                     .Expect("Cannot find the name of the external function declaration", j),
