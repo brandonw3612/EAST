@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+SAMPLES_DIR="$(dirname "$0")/samples"
+
+TASK_NAME=$1 
+
+CPP_SOURCE_PATH="$SAMPLES_DIR/$TASK_NAME/$TASK_NAME.cpp"
+AST_PATH="$SAMPLES_DIR/$TASK_NAME/$TASK_NAME.ast.json"
+DOT_PATH="$SAMPLES_DIR/$TASK_NAME/$TASK_NAME.ast.dot"
+TRIMMED_DOT_PATH="$SAMPLES_DIR/$TASK_NAME/$TASK_NAME.ast.trimmed.dot"
+IMAGE_PATH="$SAMPLES_DIR/$TASK_NAME/$TASK_NAME.ast.png"
+TRIMMED_IMAGE_PATH="$SAMPLES_DIR/$TASK_NAME/$TASK_NAME.ast.trimmed.png"
+
+clang++ -std=c++17 -Xclang -ast-dump=json -fsyntax-only "$CPP_SOURCE_PATH" > "$AST_PATH"
+
+./publish/EAST.CPP/EAST.CPP "$AST_PATH" "$DOT_PATH" "$TRIMMED_DOT_PATH"
+
+dot -Tpng "$DOT_PATH" -o "$IMAGE_PATH"
+
+dot -Tpng "$TRIMMED_DOT_PATH" -o "$TRIMMED_IMAGE_PATH"
+
+rm "$AST_PATH" "$DOT_PATH" "$TRIMMED_DOT_PATH"
