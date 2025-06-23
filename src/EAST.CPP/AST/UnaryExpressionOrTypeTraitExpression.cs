@@ -1,6 +1,7 @@
 using EAST.CPP.AST.Attributes;
 using EAST.CPP.Extensions;
 using EAST.CPP.Graph;
+using Newtonsoft.Json.Linq;
 using QuikGraph;
 
 namespace EAST.CPP.AST;
@@ -11,7 +12,7 @@ public class UnaryExpressionOrTypeTraitExpression : Expression
     public required string Name { get; set; }
     public required Expression Inner { get; set; }
     
-    public new static UnaryExpressionOrTypeTraitExpression ParseFromJ(Newtonsoft.Json.Linq.JObject j, Dictionary<string, object> astNodeDict)
+    public new static UnaryExpressionOrTypeTraitExpression ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
     {
         var id = j.GetId();
         if (astNodeDict.TryGetValue(id, out var existing))

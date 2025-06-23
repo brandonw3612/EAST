@@ -6,53 +6,51 @@ using QuikGraph;
 
 namespace EAST.CPP.AST;
 
-[Expression("ConstantExpr")]
-public class ConstantExpression : Expression
+[Expression("DefaultStmt")]
+public class DefaultStatement : Statement
 {
     public required Expression Inner { get; set; }
     
-    public new static ConstantExpression ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
+    public new static DefaultStatement ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
     {
         var id = j.GetId();
         if (astNodeDict.TryGetValue(id, out var existing))
         {
-            return (existing as ConstantExpression)
-                .Expect("Failed to cast existing AST node to ConstantExpression.", j);
+            return (existing as DefaultStatement)
+                .Expect("Failed to cast existing AST node to DefaultStatement.", j);
         }
-
-        var children = j.GetChildren();
-        ConstantExpression node = new()
+        
+        var children = j.GetNullableChildren();
+        DefaultStatement node = new()
         {
             Id = id,
-            Type = j.GetTypeName(),
-            ValueCategory = j.GetExpressionValueCategory(),
             Inner = Expression.ParseFromJ(
                 children.FirstOrDefault()
-                    .Expect("Cannot find the inner expression of the constant expression.", j),
+                    .Expect("Cannot find inner expression in DefaultStatement.", j),
                 astNodeDict
             )
         };
-
+        
         astNodeDict[id] = node;
         return node;
     }
     
     public override GraphNode AddToGraph(AdjacencyGraph<GraphNode, GraphEdge> graph, Dictionary<string, GraphNode> astNodeDict)
     {
-        if (astNodeDict.TryGetValue(Id, out var existing))
+        if (astNodeDict.TryGetValue(Id, out var existingNode))
         {
-            return existing;
+            return existingNode;
         }
-
+        
         GraphNode node = new()
         {
             Id = Id,
-            Label = $"[Constant]\n({Type})"
+            Label = "[Default]"
         };
         graph.AddVertex(node);
         
         var innerNode = Inner.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new(node, innerNode));
+        graph.AddEdge(new GraphEdge(node, innerNode));
         
         astNodeDict[Id] = node;
         return node;

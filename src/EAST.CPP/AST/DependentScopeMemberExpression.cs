@@ -1,6 +1,7 @@
 using EAST.CPP.AST.Attributes;
 using EAST.CPP.Extensions;
 using EAST.CPP.Graph;
+using Newtonsoft.Json.Linq;
 using QuikGraph;
 
 namespace EAST.CPP.AST;
@@ -11,7 +12,7 @@ public class DependentScopeMemberExpression : Expression
     public required string MemberName { get; set; }
     public required Expression Base { get; set; }
     
-    public new static DependentScopeMemberExpression ParseFromJ(Newtonsoft.Json.Linq.JObject j, Dictionary<string, object> astNodeDict)
+    public new static DependentScopeMemberExpression ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
     {
         var id = j.GetId();
         if (astNodeDict.TryGetValue(id, out var existing))

@@ -1,6 +1,7 @@
 using EAST.CPP.AST.Attributes;
 using EAST.CPP.Extensions;
 using EAST.CPP.Graph;
+using Newtonsoft.Json.Linq;
 using QuikGraph;
 
 namespace EAST.CPP.AST;
@@ -10,7 +11,7 @@ public class DefaultArgumentExpression : Expression
 {
     public required Expression Inner { get; set; }
     
-    public new static DefaultArgumentExpression ParseFromJ(Newtonsoft.Json.Linq.JObject j, Dictionary<string, object> astNodeDict)
+    public new static DefaultArgumentExpression ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
     {
         var id = j.GetId();
         if (astNodeDict.TryGetValue(id, out var existing))

@@ -1,6 +1,7 @@
 using EAST.CPP.AST.Attributes;
 using EAST.CPP.Extensions;
 using EAST.CPP.Graph;
+using Newtonsoft.Json.Linq;
 using QuikGraph;
 
 namespace EAST.CPP.AST;
@@ -8,7 +9,7 @@ namespace EAST.CPP.AST;
 [Statement("BreakStmt")]
 public class BreakStatement : Statement
 {
-    public new static BreakStatement ParseFromJ(Newtonsoft.Json.Linq.JObject j, Dictionary<string, object> astNodeDict)
+    public new static BreakStatement ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
     {
         var id = j.GetId();
         if (astNodeDict.TryGetValue(id, out var existing))

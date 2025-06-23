@@ -1,6 +1,7 @@
 using EAST.CPP.AST.Attributes;
 using EAST.CPP.Extensions;
 using EAST.CPP.Graph;
+using Newtonsoft.Json.Linq;
 using QuikGraph;
 
 namespace EAST.CPP.AST;
@@ -11,7 +12,7 @@ public class SwitchStatement : Statement
     public required Expression Condition { get; set; }
     public required Statement Cases { get; set; }
     
-    public new static SwitchStatement ParseFromJ(Newtonsoft.Json.Linq.JObject j, Dictionary<string, object> astNodeDict)
+    public new static SwitchStatement ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
     {
         var id = j.GetId();
         if (astNodeDict.TryGetValue(id, out var existing))

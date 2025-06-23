@@ -13,7 +13,7 @@ public class NewExpression : Expression
     public required FunctionDeclaration DeleteDeclaration { get; set; }
     public required Expression Initializer { get; set; }
     
-    public new static NewExpression ParseFromJ(Newtonsoft.Json.Linq.JObject j, Dictionary<string, object> astNodeDict)
+    public new static NewExpression ParseFromJ(JObject j, Dictionary<string, object> astNodeDict)
     {
         var id = j.GetId();
         if (astNodeDict.TryGetValue(id, out var existing))
