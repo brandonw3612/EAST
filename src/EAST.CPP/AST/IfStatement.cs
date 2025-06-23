@@ -9,7 +9,8 @@ namespace EAST.CPP.AST;
 [Statement("IfStmt")]
 public class IfStatement : Statement
 {
-    public required Expression Condition { get; set; }
+    public required Expression? Condition { get; set; }
+    public required DeclarationStatement? ConditionVariableDeclaration { get; set; }
     public required Statement Then { get; set; }
     public required Statement? Else { get; set; }
     
@@ -23,14 +24,45 @@ public class IfStatement : Statement
         }
         
         var children = j.GetChildren();
-        IfStatement node = new()
+
+        Expression? condition;
+        try
         {
-            Id = id,
-            Condition = Expression.ParseFromJ(
+            condition = Expression.ParseFromJ(
                 children.FirstOrDefault()
                     .Expect("Cannot find condition in IfStatement.", j),
                 astNodeDict
-            ),
+            );
+        }
+        catch
+        {
+            condition = null;
+        }
+        
+        DeclarationStatement? declaration;
+        try
+        {
+            declaration = DeclarationStatement.ParseFromJ(
+                children.FirstOrDefault()
+                    .Expect("Cannot find condition variable declaration in IfStatement.", j),
+                astNodeDict
+            );
+        }
+        catch
+        {
+            declaration = null;
+        }
+        
+        if (condition is null && declaration is null)
+        {
+            throw new NotSupportedException("IfStatement must have either a condition or a condition variable declaration.");
+        }
+        
+        IfStatement node = new()
+        {
+            Id = id,
+            Condition = condition,
+            ConditionVariableDeclaration = declaration,
             Then = Statement.ParseFromJ(
                 children.ElementAtOrDefault(1)
                     .Expect("Cannot find then statement in IfStatement.", j),
@@ -61,28 +93,41 @@ public class IfStatement : Statement
             Label = "[If]"
         };
         graph.AddVertex(node);
-        
-        var conditionNode = Condition.AddToGraph(graph, astNodeDict);
-        var thenNode = Then.AddToGraph(graph, astNodeDict);
-        
-        graph.AddEdge(new (node, conditionNode)
+
+        if (Condition != null)
         {
-            Label = "Cond"
-        });
+            var conditionNode = Condition.AddToGraph(graph, astNodeDict);
+            graph.AddEdge(new GraphEdge(node, conditionNode)
+            {
+                Label = "Cond"
+            });
+        }
+
+        if (ConditionVariableDeclaration != null)
+        {
+            var declarationNode = ConditionVariableDeclaration.AddToGraph(graph, astNodeDict);
+            graph.AddEdge(new GraphEdge(node, declarationNode)
+            {
+                Label = "Cond"
+            });
+        }
+
+        var thenNode = Then.AddToGraph(graph, astNodeDict);
         graph.AddEdge(new (node, thenNode)
         {
             Label = "T"
         });
 
-        astNodeDict[Id] = node;
-        if (Else == null) return node;
-        
-        var elseNode = Else.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new(node, elseNode)
+        if (Else != null)
         {
-            Label = "F"
-        });
-        
+            var elseNode = Else.AddToGraph(graph, astNodeDict);
+            graph.AddEdge(new(node, elseNode)
+            {
+                Label = "F"
+            });
+        }
+
+        astNodeDict[Id] = node;
         return node;
     }
 }
