@@ -55,7 +55,7 @@ public class ParenthesizedExpression : Expression
         var innerNode = Inner.AddToGraph(graph, astNodeDict);
         graph.AddEdge(new(node, innerNode));
         
-        astNodeDict[Id] = innerNode;
+        astNodeDict[Id] = node;
         return node;
     }
 }

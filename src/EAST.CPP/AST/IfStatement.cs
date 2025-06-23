@@ -83,6 +83,6 @@ public class IfStatement : Statement
             Label = "F"
         });
         
-        return conditionNode;
+        return node;
     }
 }
