@@ -59,7 +59,7 @@ public class DecompositionDeclaration : VariableDeclaration
         if (Initializer != null)
         {
             var childNode = Initializer.AddToGraph(graph, astNodeDict);
-            graph.AddEdge(new GraphEdge(node, childNode)
+            graph.AddEdge(new(node, childNode)
             {
                 Label = "Init"
             });
@@ -68,7 +68,7 @@ public class DecompositionDeclaration : VariableDeclaration
         foreach (var binding in Bindings)
         {
             var childNode = binding.AddToGraph(graph, astNodeDict);
-            graph.AddEdge(new GraphEdge(node, childNode)
+            graph.AddEdge(new(node, childNode)
             {
                 Label = "Bind"
             });

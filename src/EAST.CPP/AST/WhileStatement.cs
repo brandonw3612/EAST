@@ -58,11 +58,11 @@ public class WhileStatement : Statement
         var conditionNode = Condition.AddToGraph(graph, astNodeDict);
         var bodyNode = Body.AddToGraph(graph, astNodeDict);
         
-        graph.AddEdge(new GraphEdge(node, conditionNode)
+        graph.AddEdge(new(node, conditionNode)
         {
             Label = "Cond"
         });
-        graph.AddEdge(new GraphEdge(node, bodyNode)
+        graph.AddEdge(new(node, bodyNode)
         {
             Label = "Body"
         });

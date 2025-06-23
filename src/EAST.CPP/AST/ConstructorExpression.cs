@@ -66,7 +66,7 @@ public class ConstructorExpression : Expression
         foreach (var arg in Arguments)
         {
             var argNode = arg.AddToGraph(graph, astNodeDict);
-            graph.AddEdge(new GraphEdge(node, argNode));
+            graph.AddEdge(new(node, argNode));
         }
         
         astNodeDict[Id] = node;

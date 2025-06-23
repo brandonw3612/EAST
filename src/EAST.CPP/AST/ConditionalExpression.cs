@@ -72,11 +72,11 @@ public class ConditionalExpression : Expression
         {
             Label = "Cond"
         });
-        graph.AddEdge(new GraphEdge(node, trueNode)
+        graph.AddEdge(new(node, trueNode)
         {
             Label = "T"
         });
-        graph.AddEdge(new GraphEdge(node, falseNode)
+        graph.AddEdge(new(node, falseNode)
         {
             Label = "F"
         });

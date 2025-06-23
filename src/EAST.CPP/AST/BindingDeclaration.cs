@@ -49,7 +49,7 @@ public class BindingDeclaration : ValueDeclaration
             return existingNode;
         }
         
-        var node = new GraphNode
+        GraphNode node = new()
         {
             Id = Id,
             Label = $"[Binding]\n{Name}: {BindingExpression.Type}"
@@ -57,7 +57,7 @@ public class BindingDeclaration : ValueDeclaration
         graph.AddVertex(node);
         
         var childNode = BindingExpression.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(node, childNode));
+        graph.AddEdge(new(node, childNode));
         
         astNodeDict[Id] = node;
         return node;

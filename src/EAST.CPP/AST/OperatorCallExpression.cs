@@ -49,7 +49,7 @@ public class OperatorCallExpression : Expression
             return existingNode;
         }
         
-        var node = new GraphNode
+        GraphNode node = new()
         {
             Id = Id,
             Label = "[OperatorCall]"
@@ -65,7 +65,7 @@ public class OperatorCallExpression : Expression
         foreach (var arg in Arguments)
         {
             var argNode = arg.AddToGraph(graph, astNodeDict);
-            graph.AddEdge(new GraphEdge(node, argNode)
+            graph.AddEdge(new (node, argNode)
             {
                 Label = "Arg"
             });

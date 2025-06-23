@@ -95,43 +95,43 @@ public class ForRangeStatement : Statement
         if (Initializer is not null)
         {
             var initNode = Initializer.AddToGraph(graph, astNodeDict);
-            graph.AddEdge(new GraphEdge(node, initNode)
+            graph.AddEdge(new(node, initNode)
             {
                 Label = "Init"
             });
         }
         var rangeNode = Range.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(node, rangeNode)
+        graph.AddEdge(new(node, rangeNode)
         {
             Label = "Range"
         });
         var beginNode = BeginStatement.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(node, beginNode)
+        graph.AddEdge(new(node, beginNode)
         {
             Label = "Begin"
         });
         var endNode = EndStatement.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(node, endNode)
+        graph.AddEdge(new(node, endNode)
         {
             Label = "End"
         });
         var conditionNode = Condition.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(node, conditionNode)
+        graph.AddEdge(new(node, conditionNode)
         {
             Label = "Cond"
         });
         var incrementNode = Increment.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(node, incrementNode)
+        graph.AddEdge(new(node, incrementNode)
         {
             Label = "Inc"
         });
         var loopVarNode = LoopVariable.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(node, loopVarNode)
+        graph.AddEdge(new(node, loopVarNode)
         {
             Label = "LoopVar"
         });
         var bodyNode = Body.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(node, bodyNode)
+        graph.AddEdge(new(node, bodyNode)
         {
             Label = "Body"
         });

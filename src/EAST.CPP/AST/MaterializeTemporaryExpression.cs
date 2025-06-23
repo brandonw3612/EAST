@@ -45,7 +45,7 @@ public class MaterializeTemporaryExpression : Expression
             return existingNode;
         }
         
-        var node = new GraphNode
+        GraphNode node = new()
         {
             Id = Id,
             Label = $"[MaterializeTemporary]\n({Type})"
@@ -53,7 +53,7 @@ public class MaterializeTemporaryExpression : Expression
         graph.AddVertex(node);
         
         var innerNode = Inner.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(node, innerNode));
+        graph.AddEdge(new(node, innerNode));
         
         astNodeDict[Id] = node;
         return node;

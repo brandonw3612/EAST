@@ -66,8 +66,8 @@ public class CompoundAssignExpression : Expression
         var leftNode = Left.AddToGraph(graph, astNodeDict);
         var rightNode = Right.AddToGraph(graph, astNodeDict);
         
-        graph.AddEdge(new GraphEdge(leftNode, node));
-        graph.AddEdge(new GraphEdge(rightNode, node));
+        graph.AddEdge(new(node, leftNode));
+        graph.AddEdge(new(node, rightNode));
 
         astNodeDict[Id] = node;
         return node;

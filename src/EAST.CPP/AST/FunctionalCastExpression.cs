@@ -52,7 +52,7 @@ public class FunctionalCastExpression : Expression
         graph.AddVertex(node);
         
         var operandNode = Operand.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(operandNode, node));
+        graph.AddEdge(new(node, operandNode));
         
         astNodeDict[Id] = node;
         return node;

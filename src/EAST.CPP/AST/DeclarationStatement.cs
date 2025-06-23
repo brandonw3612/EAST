@@ -40,7 +40,7 @@ public class DeclarationStatement : Statement
             return existingNode;
         }
         
-        var node = new GraphNode
+        GraphNode node = new()
         {
             Id = Id,
             Label = "[Declaration]"
@@ -50,7 +50,7 @@ public class DeclarationStatement : Statement
         foreach (var declaration in Declarations)
         {
             var childNode = declaration.AddToGraph(graph, astNodeDict);
-            graph.AddEdge(new GraphEdge(node, childNode));
+            graph.AddEdge(new(node, childNode));
         }
             
         astNodeDict[Id] = node;

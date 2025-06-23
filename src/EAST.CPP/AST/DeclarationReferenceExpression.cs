@@ -53,7 +53,7 @@ public class DeclarationReferenceExpression : Expression
         graph.AddVertex(node);
         
         var decNode = Declaration.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(node, decNode)
+        graph.AddEdge(new(node, decNode)
         {
             Style = GraphvizEdgeStyle.Dashed
         });

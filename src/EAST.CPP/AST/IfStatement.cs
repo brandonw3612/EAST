@@ -65,20 +65,20 @@ public class IfStatement : Statement
         var conditionNode = Condition.AddToGraph(graph, astNodeDict);
         var thenNode = Then.AddToGraph(graph, astNodeDict);
         
-        graph.AddEdge(new GraphEdge(node, conditionNode)
+        graph.AddEdge(new (node, conditionNode)
         {
             Label = "Cond"
         });
-        graph.AddEdge(new GraphEdge(conditionNode, thenNode)
+        graph.AddEdge(new (node, thenNode)
         {
             Label = "T"
         });
 
-        astNodeDict[Id] = conditionNode;
-        if (Else == null) return conditionNode;
+        astNodeDict[Id] = node;
+        if (Else == null) return node;
         
         var elseNode = Else.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(conditionNode, elseNode)
+        graph.AddEdge(new(node, elseNode)
         {
             Label = "F"
         });

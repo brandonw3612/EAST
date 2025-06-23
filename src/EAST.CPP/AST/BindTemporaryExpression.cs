@@ -58,13 +58,13 @@ public class BindTemporaryExpression : Expression
         graph.AddVertex(node);
 
         var subExpressionNode = Sub.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(subExpressionNode, node)
+        graph.AddEdge(new(node, subExpressionNode)
         {
             Label = "Sub"
         });
 
         var destructorNode = Destructor.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(destructorNode, node)
+        graph.AddEdge(new(node, destructorNode)
         {
             Label = "Dtor"
         });

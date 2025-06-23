@@ -74,19 +74,19 @@ public class ForStatement : Statement
         var incNode = Increment.AddToGraph(graph, astNodeDict);
         var bodyNode = Body.AddToGraph(graph, astNodeDict);
         
-        graph.AddEdge(new GraphEdge(node, initNode)
+        graph.AddEdge(new(node, initNode)
         {
             Label = "Init"
         });
-        graph.AddEdge(new GraphEdge(node, condNode)
+        graph.AddEdge(new(node, condNode)
         {
             Label = "Cond"
         });
-        graph.AddEdge(new GraphEdge(node, incNode)
+        graph.AddEdge(new(node, incNode)
         {
             Label = "Inc"
         });
-        graph.AddEdge(new GraphEdge(node, bodyNode)
+        graph.AddEdge(new(node, bodyNode)
         {
             Label = "Body"
         });

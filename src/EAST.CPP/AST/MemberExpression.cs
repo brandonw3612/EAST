@@ -55,7 +55,7 @@ public class MemberExpression : Expression
         graph.AddVertex(node);
         
         var baseNode = Base.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(baseNode, node));
+        graph.AddEdge(new(node, baseNode));
         
         astNodeDict[Id] = node;
         return node;

@@ -61,7 +61,7 @@ public class VariableDeclaration : ValueDeclaration
         if (Initializer == null) return node;
         
         var childNode = Initializer.AddToGraph(graph, astNodeDict);
-        graph.AddEdge(new GraphEdge(node, childNode));
+        graph.AddEdge(new(node, childNode));
         
         return node;
     }

@@ -18,7 +18,7 @@ public class EmptyStatement : Statement
             return existingNode;
         }
         
-        var node = new GraphNode
+        GraphNode node = new()
         {
             Id = Id,
             Label = "[External]"
