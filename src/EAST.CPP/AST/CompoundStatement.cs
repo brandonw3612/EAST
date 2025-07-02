@@ -3,6 +3,7 @@ using EAST.CPP.Extensions;
 using EAST.CPP.Graph;
 using Newtonsoft.Json.Linq;
 using QuikGraph;
+using QuikGraph.Graphviz.Dot;
 
 namespace EAST.CPP.AST;
 
@@ -47,10 +48,21 @@ public class CompoundStatement : Statement
         };
         graph.AddVertex(node);
         
-        foreach (var statement in Statements)
+        List<GraphNode> statementNodes = new();
+        for (var i = 0; i < Statements.Count; i++)
         {
+            var statement = Statements[i];
             var statementNode = statement.AddToGraph(graph, astNodeDict);
             graph.AddEdge(new(node, statementNode));
+            
+            statementNodes.Add(statementNode);
+            if (i > 0)
+            {
+                graph.AddEdge(new GraphEdge(statementNodes[i - 1], statementNode)
+                {
+                    Style = GraphvizEdgeStyle.Dashed
+                });
+            }
         }
         
         astNodeDict[Id] = node;

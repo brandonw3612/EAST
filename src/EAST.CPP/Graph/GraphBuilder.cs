@@ -8,7 +8,7 @@ namespace EAST.CPP.Graph;
 
 public static class GraphBuilder
 {
-    public static void BuildGraph(ProgramDeclaration program, string outputFilePath)
+    public static void BuildGraph(ProgramDeclaration program, Dictionary<string, object> astNodeDict, string outputFilePath)
     {
         // Initialize the graph
         var graph = new AdjacencyGraph<GraphNode, GraphEdge>();
@@ -29,6 +29,18 @@ public static class GraphBuilder
             args.EdgeFormat.Style = args.Edge.Style;
         };
         var dot = viz.Generate();
+        var graphVertices = graph.Vertices.ToList();
+        var appendedContent = string.Empty;
+        foreach (var cs in astNodeDict.Values.OfType<CompoundStatement>().Where(static cs => cs.Statements.Count > 1))
+        {
+            var children = cs.Statements.Select(static s => s.Id)
+                .Select(id => gnd[id])
+                .Select(n => graphVertices.IndexOf(n))
+                .Select(index => $"{index}; ").ToArray();
+            appendedContent += "\nsubgraph {\nrank = same;\n" + string.Join("", children) + "\n}\n";
+        }
+        var ind = dot.LastIndexOf('}');
+        dot = dot.Insert(ind, appendedContent);
         File.WriteAllText(outputFilePath, dot);
     }
     
