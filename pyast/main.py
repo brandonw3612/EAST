@@ -25,6 +25,8 @@ def clean_json(j):
                         clean_json(item)
     return j
 
+type_inf_stats = {}
+
 i = 0
 sample_dir = "./samples/python/"
 # Read all subdirectories in sample_dir
@@ -38,7 +40,7 @@ for subdir in Path(sample_dir).iterdir():
                     module = astroid.parse(source)
                     print(f'[Parsed]     {file_path} ({i}) at {datetime.now().strftime("%H:%M:%S")}')
                     node_dict = {}
-                    j = clean_json(to_json(module, node_dict))
+                    j = clean_json(to_json(module, node_dict, type_inf_stats))
                     print(f'[Converted]  {file_path} ({i}) at {datetime.now().strftime("%H:%M:%S")}')
                     dot = Digraph()
                     json_to_graph(j, dot)
@@ -49,3 +51,8 @@ for subdir in Path(sample_dir).iterdir():
                     print(f'[Error]      {file_path} ({i}) at {datetime.now().strftime("%H:%M:%S")}: {e}')
                     # print(f'[Error]      {file_path} ({i}) at {datetime.now().strftime("%H:%M:%S")}: {e.with_traceback()}')
                     continue
+print()
+for e in type_inf_stats:
+    atmp = len(type_inf_stats[e]['attempt'])
+    succ = len(type_inf_stats[e]['success'])
+    print(f'{e} & {atmp} & {succ} & {atmp/i:.2f} & {succ/i:.2f} & {100*succ/atmp:.2f}')

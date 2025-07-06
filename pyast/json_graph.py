@@ -3,8 +3,6 @@ from graphviz import Digraph
 
 def module_json_to_graph(j: dict, dot: Digraph):
     label = '[Module]\n' + j['name']
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     body = j.get('body', [])
@@ -21,8 +19,6 @@ def module_json_to_graph(j: dict, dot: Digraph):
 
 def function_def_json_to_graph(j: dict, dot: Digraph):
     label = '[FunctionDef]\n' + j['name']
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     if 'returns' in j:
         label += '\n(returns) ' + j['returns']
     dot.node(j['id'], label, shape='box')
@@ -50,8 +46,6 @@ def function_def_json_to_graph(j: dict, dot: Digraph):
 
 def return_json_to_graph(j: dict, dot: Digraph):
     label = '[Return]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     if 'value' in j:
@@ -84,8 +78,6 @@ def name_json_to_graph(j: dict, dot: Digraph):
 
 def assign_json_to_graph(j: dict, dot: Digraph):
     label = '[Assign]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     dot.node(j['id'] + '_targets', '[Targets]', shape='box')
@@ -123,8 +115,6 @@ def const_json_to_graph(j: dict, dot: Digraph):
 
 def for_json_to_graph(j: dict, dot: Digraph):
     label = '[For]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     json_to_graph(j['target'], dot)
@@ -169,8 +159,6 @@ def list_json_to_graph(j: dict, dot: Digraph):
 
 def if_json_to_graph(j: dict, dot: Digraph):
     label = '[If]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     json_to_graph(j['condition'], dot)
@@ -227,8 +215,6 @@ def compare_json_to_graph(j: dict, dot: Digraph):
 
 def expr_json_to_graph(j: dict, dot: Digraph):
     label = '[Expr]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     json_to_graph(j['value'], dot)
@@ -262,8 +248,6 @@ def bool_op_json_to_graph(j: dict, dot: Digraph):
 
 def import_json_to_graph(j: dict, dot: Digraph):
     label = '[Import]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     if 'names' in j and len(j['names']) > 0:
@@ -278,8 +262,6 @@ def import_json_to_graph(j: dict, dot: Digraph):
 
 def import_from_json_to_graph(j: dict, dot: Digraph):
     label = '[ImportFrom]\n' + j['module']
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     if 'names' in j and len(j['names']) > 0:
         names = []
         for name in j['names']:
@@ -348,8 +330,6 @@ def generator_exp_json_to_graph(j: dict, dot: Digraph):
 
 def comprehension_json_to_graph(j: dict, dot: Digraph):
     label = '[Comprehension]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     json_to_graph(j['target'], dot)
@@ -367,8 +347,6 @@ def comprehension_json_to_graph(j: dict, dot: Digraph):
 
 def aug_assign_json_to_graph(j: dict, dot: Digraph):
     label = '[AugAssign]\n' + j['op']
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     json_to_graph(j['target'], dot)
@@ -397,8 +375,6 @@ def if_exp_json_to_graph(j: dict, dot: Digraph):
 
 def while_json_to_graph(j: dict, dot: Digraph):
     label = '[While]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     json_to_graph(j['condition'], dot)
@@ -462,8 +438,6 @@ def formatted_value_json_to_graph(j: dict, dot: Digraph):
 
 def global_json_to_graph(j: dict, dot: Digraph):
     label = '[Global]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     if 'names' in j and len(j['names']) > 0:
         names = j['names']
         label += '\nNames: ' + ', '.join(names)
@@ -480,8 +454,6 @@ def starred_json_to_graph(j: dict, dot: Digraph):
 
 def slice_json_to_graph(j: dict, dot: Digraph):
     label = '[Slice]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     if 'lower' in j:
@@ -498,8 +470,6 @@ def slice_json_to_graph(j: dict, dot: Digraph):
 
 def delete_json_to_graph(j: dict, dot: Digraph):
     label = '[Delete]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     if 'targets' in j and len(j['targets']) > 0:
@@ -558,8 +528,6 @@ def dict_comp_json_to_graph(j: dict, dot: Digraph):
 
 def nonlocal_json_to_graph(j: dict, dot: Digraph):
     label = '[Nonlocal]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     if 'names' in j and len(j['names']) > 0:
         names = j['names']
         label += '\nNames: ' + ', '.join(names)
@@ -567,8 +535,6 @@ def nonlocal_json_to_graph(j: dict, dot: Digraph):
 
 def assign_attr_json_to_graph(j: dict, dot: Digraph):
     label = '[AssignAttr]\n' + j['attrName']
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     json_to_graph(j['expr'], dot)
@@ -592,8 +558,6 @@ def set_comp_json_to_graph(j: dict, dot: Digraph):
 
 def try_json_to_graph(j: dict, dot: Digraph):
     label = '[Try]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     dot.node(j['id'] + '_body', '[Body]', shape='box')
@@ -632,8 +596,6 @@ def try_json_to_graph(j: dict, dot: Digraph):
 
 def except_handler_json_to_graph(j: dict, dot: Digraph):
     label = '[ExceptHandler]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     if 'type' in j:
@@ -659,8 +621,6 @@ def except_handler_json_to_graph(j: dict, dot: Digraph):
 
 def assert_json_to_graph(j: dict, dot: Digraph):
     label = '[Assert]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     json_to_graph(j['test'], dot)
@@ -672,8 +632,6 @@ def assert_json_to_graph(j: dict, dot: Digraph):
 
 def class_def_json_to_graph(j: dict, dot: Digraph):
     label = '[ClassDef]\n' + j['name']
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     body = j.get('body', [])
