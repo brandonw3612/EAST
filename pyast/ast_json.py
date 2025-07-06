@@ -572,19 +572,6 @@ def starred_to_json(starred: astroid.Starred, node_dict: dict, type_inf_stats: d
         'node': 'Starred',
         'value': to_json(starred.value, node_dict, type_inf_stats)
     }
-    try:
-        if 'Starred' not in type_inf_stats:
-            type_inf_stats['Starred'] = {
-                'attempt': [],
-                'success': []
-            }
-        type_inf_stats['Starred']['attempt'].append(hex(id(starred)))
-        inferred_type = astypes.get_type(starred)
-        if inferred_type is not None:
-            node['inferred_type'] = inferred_type.annotation
-            type_inf_stats['Starred']['success'].append(hex(id(starred)))
-    except:
-        pass
     node_dict[node['id']] = node
     return node
 
@@ -639,19 +626,6 @@ def lambda_to_json(lam: astroid.Lambda, node_dict: dict, type_inf_stats: dict):
         'args': [to_json(arg, node_dict, type_inf_stats) for arg in lam.args.args],
         'body': to_json(lam.body, node_dict, type_inf_stats)
     }
-    try:
-        if 'Lambda' not in type_inf_stats:
-            type_inf_stats['Lambda'] = {
-                'attempt': [],
-                'success': []
-            }
-        type_inf_stats['Lambda']['attempt'].append(hex(id(lam)))
-        inferred_type = astypes.get_type(lam)
-        if inferred_type is not None:
-            node['inferred_type'] = inferred_type.annotation
-            type_inf_stats['Lambda']['success'].append(hex(id(lam)))
-    except:
-        pass
     node_dict[node['id']] = node
     return node
 

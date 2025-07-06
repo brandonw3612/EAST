@@ -445,8 +445,6 @@ def global_json_to_graph(j: dict, dot: Digraph):
 
 def starred_json_to_graph(j: dict, dot: Digraph):
     label = '[Starred]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     json_to_graph(j['value'], dot)
@@ -492,8 +490,6 @@ def set_json_to_graph(j: dict, dot: Digraph):
 
 def lambda_json_to_graph(j: dict, dot: Digraph):
     label = '[Lambda]'
-    if 'inferred_type' in j:
-        label += '\n(i.t.) ' + j['inferred_type']
     dot.node(j['id'], label, shape='box')
 
     dot.node(j['id'] + '_args', '[Args]', shape='box')
